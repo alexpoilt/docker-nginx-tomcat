@@ -1,0 +1,27 @@
+version: '3.5'
+
+services:
+  webserver:
+    build: ./nginx
+    image: local/nginx:0.1
+    container_name: nginx
+    networks:
+      - mynet
+    ports:
+      - "80:80"
+  app:
+    build: ./tomcat
+    environment:
+      - HTTP_PORT=7070
+      - AJP_PORT=7009
+      - SHUTDOWN_PORT=7005
+    image: local/tomcat:0.1
+    container_name: tomcat8
+    networks:
+      - mynet
+    depends_on:
+      - webserver
+networks:
+  mynet:
+    name: net
+    driver: bridge
