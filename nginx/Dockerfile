@@ -18,3 +18,7 @@ rm -rf /var/lib/apt/lists/* && \
 rm -fr /etc/nginx/sites-available/default
 
 COPY conf.d/ /etc/nginx/conf.d/
+
+RUN ln -s /etc/nginx/sites-available/tomcat-proxy.conf /etc/nginx/sites-enabled/tomcat-proxy.conf
+
+CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
