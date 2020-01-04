@@ -1,15 +1,7 @@
 version: '3.5'
 
 services:
-  webserver:
-    build: ./nginx
-    image: local/nginx:0.1
-    container_name: nginx
-    networks:
-      - mynet
-    ports:
-      - "80:80"
-  app:
+ app:
     build: ./tomcat
     environment:
       - HTTP_PORT=7070
@@ -19,8 +11,17 @@ services:
     container_name: tomcat8
     networks:
       - mynet
+ webserver:
+    build: ./nginx
+    image: local/nginx:0.1
+    container_name: nginx
+    networks:
+      - mynet
     depends_on:
-      - webserver
+      - app
+    ports:
+      - "80:80"
+      - "443:443"
 networks:
   mynet:
     name: net
